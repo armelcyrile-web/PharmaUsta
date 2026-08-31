@@ -6,23 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->string('matricule')->unique();
+            $table->foreignId('niveau_id')->constrained('niveaux')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropForeign(['niveau_id']);
+            $table->dropColumn(['matricule', 'niveau_id']);
         });
     }
 };
