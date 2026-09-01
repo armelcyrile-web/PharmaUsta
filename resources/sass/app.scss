@@ -1,0 +1,33 @@
+// Variables Bootstrap
+$primary: #4B2E83;
+$success: #5FA82C;
+$border-radius: .5rem;
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+// Import Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Classes utilitaires custom
+.hero-gradient {
+    background: linear-gradient(135deg, #4B2E83 0%, #2E1A5C 100%);
+}
+
+.stats-gradient {
+    background: linear-gradient(to right, #4B2E83 0%, #7A2E4D 100%);
+}
+
+.card-soft {
+    background: linear-gradient(135deg, #F3E8FF 0%, #FDE8F0 100%);
+}
+
+.icon-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bs-primary, #4B2E83);
+    color: white;
+    font-size: 1.5rem;
+}

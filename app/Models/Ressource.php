@@ -9,6 +9,8 @@ class Ressource extends Model
 {
     use HasFactory;
 
+    protected $table = 'ressources';
+
     protected $fillable = [
         'titre',
         'description',

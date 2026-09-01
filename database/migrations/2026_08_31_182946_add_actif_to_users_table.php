@@ -9,16 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('matricule')->unique()->after('id');
-            $table->foreignId('niveau_id')->constrained('niveaux')->onDelete('cascade')->after('matricule');
+            $table->boolean('actif')->default(true)->after('matricule');
         });
     }
 
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['niveau_id']);
-            $table->dropColumn(['matricule', 'niveau_id']);
+            $table->dropColumn('actif');
         });
     }
 };

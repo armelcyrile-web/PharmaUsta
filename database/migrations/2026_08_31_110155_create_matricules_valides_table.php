@@ -12,7 +12,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->string('matricule')->unique();
-            $table->foreignId('annee_academique_id')->constrained('annees_academiques')->onDelete('cascade');
+           $table->foreignId('annee_academique_id')->constrained('annees_academiques')->onDelete('cascade');
             $table->timestamps();
         });
     }

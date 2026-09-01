@@ -9,6 +9,8 @@ class Ecue extends Model
 {
     use HasFactory;
 
+    protected $table = 'ecues';
+
     protected $fillable = [
         'nom',
         'ue_id',

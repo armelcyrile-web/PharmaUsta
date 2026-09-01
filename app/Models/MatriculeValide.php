@@ -9,6 +9,8 @@ class MatriculeValide extends Model
 {
     use HasFactory;
 
+    protected $table = 'matricules_valides';
+
     protected $fillable = [
         'matricule',
         'annee_academique_id',
