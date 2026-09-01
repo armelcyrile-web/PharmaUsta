@@ -15,6 +15,7 @@ class DashboardController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('auth'),
+            new Middleware('permission:voir-statistiques'),
         ];
     }
 

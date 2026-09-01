@@ -25,6 +25,8 @@ class AdminPrincipalSeeder extends Seeder
             ]
         );
 
-        $admin->givePermissionTo(Permission::all());
+        $admin->syncPermissions(Permission::all());
+
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
     }
 }

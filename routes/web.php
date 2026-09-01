@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'permission:voir-statistiques'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/tableau-de-bord', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');

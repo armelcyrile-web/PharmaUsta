@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -60,7 +61,9 @@ class UserController extends Controller implements HasMiddleware
             'role_ids.*' => ['exists:roles,id'],
         ]);
 
-        $user->syncRoles($request->input('role_ids'));
+        $roleNames = Role::whereIn('id', $request->input('role_ids'))->pluck('name')->toArray();
+        $user->syncRoles($roleNames);
+
         session()->flash('success', 'Rôles assignés avec succès.');
         return redirect()->route('admin.users.show', $user);
     }
