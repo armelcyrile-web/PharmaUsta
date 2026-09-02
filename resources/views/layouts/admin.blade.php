@@ -12,7 +12,7 @@
     <div class="d-flex">
         <aside class="text-white d-flex flex-column flex-shrink-0 p-3" style="width: 250px; min-height: 100vh; background-color: #2E1A5C;">
             <a href="{{ url('/admin') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <i class="bi bi-capsule me-2"></i>
+                {{-- <i class="bi bi-capsule me-2"></i> --}}  <img src="{{ asset('images/logo.png') }}" alt="PharmaUSTA" height="40" class="me-2">
                 <span class="fs-5 fw-bold">PharmaUSTA</span>
             </a>
             <hr class="text-white-50">

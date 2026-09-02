@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('content')
-<section class="hero-gradient text-white py-5">
+<section class="hero-gradient text-white py-5" >
     <div class="container py-5">
         <div class="row justify-content-center text-center">
             <div class="col-lg-8">
