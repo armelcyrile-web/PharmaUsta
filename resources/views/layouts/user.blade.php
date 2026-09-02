@@ -13,7 +13,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container">
                 <a class="navbar-brand fw-bold text-primary" href="{{ url('/') }}">
-                    <i class="bi bi-capsule"></i> PharmaUSTA
+                    <img src="{{ asset('images/logo.png') }}" alt="PharmaUSTA" height="40" class="me-2"> PharmaUSTA
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNavbar" aria-controls="userNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
