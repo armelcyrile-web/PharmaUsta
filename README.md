@@ -47,5 +47,6 @@ Elle permet de centraliser, organiser, rechercher et télécharger des documents
 
 1. **Cloner le dépôt**
    ```bash
-   git clone https://https://github.com/armelcyrile-web/PharmaUsta.git
+   git clone https://github.com/armelcyrile-web/PharmaUsta.git
    cd pharmausta
+
