@@ -44,11 +44,16 @@
                 </div>
                 <div class="col-md-4">
                     <label for="ecue_id" class="form-label">ECUE</label>
-                    <select name="ecue_id" id="ecue_id" class="form-select">
-                        <option value="">Toutes</option>
-                        @foreach(\App\Models\Ecue::all() as $ecue)
-                            <option value="{{ $ecue->id }}" {{ request('ecue_id') == $ecue->id ? 'selected' : '' }}>{{ $ecue->nom }}</option>
-                        @endforeach
+                    <select name="ecue_id" id="ecue_id" class="form-select" disabled>
+                        <option value="">Sélectionnez d'abord une UE</option>
+                        @if(request('ue_id') && request('ecue_id'))
+                            @php $ueSelectionnee = \App\Models\Ue::find(request('ue_id')); @endphp
+                            @if($ueSelectionnee)
+                                @foreach($ueSelectionnee->ecues()->orderBy('nom')->get() as $ecue)
+                                    <option value="{{ $ecue->id }}" {{ request('ecue_id') == $ecue->id ? 'selected' : '' }}>{{ $ecue->nom }}</option>
+                                @endforeach
+                            @endif
+                        @endif
                     </select>
                 </div>
                 <div class="col-md-4">
@@ -108,4 +113,51 @@
         {{ $ressources->links() }}
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ueSelect = document.getElementById('ue_id');
+    const ecueSelect = document.getElementById('ecue_id');
+    const routeBase = "{{ route('ressources.ecuesParUe', ['ue' => '__ID__']) }}";
+
+    function updateEcueSelect() {
+        const ueId = ueSelect.value;
+        ecueSelect.innerHTML = '';
+        ecueSelect.disabled = true;
+
+        if (!ueId) {
+            ecueSelect.innerHTML = '<option value="">Sélectionnez d\'abord une UE</option>';
+            return;
+        }
+
+        fetch(routeBase.replace('__ID__', ueId))
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    ecueSelect.innerHTML = '<option value="">Toutes</option>';
+                    data.forEach(ecue => {
+                        const option = document.createElement('option');
+                        option.value = ecue.id;
+                        option.textContent = ecue.nom;
+                        ecueSelect.appendChild(option);
+                    });
+                    ecueSelect.disabled = false;
+                } else {
+                    ecueSelect.innerHTML = '<option value="">Aucune ECUE pour cette UE</option>';
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des ECUE:', error);
+                ecueSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+            });
+    }
+
+    ueSelect.addEventListener('change', updateEcueSelect);
+
+    // Si une UE est présélectionnée (recherche déjà filtrée)
+    if (ueSelect.value) {
+        updateEcueSelect();
+    }
+});
+</script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ressource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Ue;
 
 class RessourceRechercheController extends Controller
 {
@@ -42,6 +43,12 @@ class RessourceRechercheController extends Controller
         $ressources = $query->paginate(12);
         return view('ressources.index', compact('ressources'));
     }
+
+    public function ecuesParUe(Ue $ue)
+{
+    $ecues = $ue->ecues()->orderBy('nom')->get(['id', 'nom']);
+    return response()->json($ecues);
+}
 
     public function show(Ressource $ressource)
     {

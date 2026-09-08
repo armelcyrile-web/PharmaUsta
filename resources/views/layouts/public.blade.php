@@ -34,6 +34,8 @@
                                 <a class="btn btn-primary text-white px-3" href="{{ route('register') }}">Créer un compte</a>
                             </li>
                         @else
+                            <li class="nav-item"><a class="nav-link" href="{{ route('ressources.index') }}">Ressources</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Mon profil</a></li>
                             <li class="nav-item ms-lg-2">
                                 <a class="btn btn-outline-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Déconnexion</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
@@ -80,7 +82,7 @@
                 </div>
                 <div class="col-md-3">
                     <h5 class="fw-bold">CEPHARM USTA</h5>
-                    <p class="text-white-50">Club des étudiants en Pharmacie de l'Université Saint Thomas d'Aquin.</p>
+                    <p class="text-white-50">Centre de Pharmacie de l'Université Saint Thomas d'Aquin.</p>
                 </div>
             </div>
             <hr class="border-secondary">

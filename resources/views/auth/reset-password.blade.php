@@ -5,19 +5,22 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Connexion</div>
+                <div class="card-header">Réinitialiser le mot de passe</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('password.store') }}">
                         @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
+
                         <div class="mb-3">
                             <label for="email" class="form-label">Adresse email</label>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', request('email')) }}" readonly>
                             @error('email')
                                 <span class="invalid-feedback" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
+
                         <div class="mb-3">
-                            <label for="password" class="form-label">Mot de passe</label>
+                            <label for="password" class="form-label">Nouveau mot de passe</label>
                             <div class="input-group">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
                                 <button class="btn btn-outline-secondary toggle-password" type="button" data-target="password">
@@ -28,10 +31,18 @@
                                 <span class="invalid-feedback" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <a href="{{ route('password.request') }}">Mot de passe oublié ?</a>
+
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Confirmer le nouveau mot de passe</label>
+                            <div class="input-group">
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
+                                <button class="btn btn-outline-secondary toggle-password" type="button" data-target="password_confirmation">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Se connecter</button>
+
+                        <button type="submit" class="btn btn-primary">Réinitialiser le mot de passe</button>
                     </form>
                 </div>
             </div>

@@ -12,8 +12,9 @@
     <header class="bg-white shadow-sm">
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container">
-                <a class="navbar-brand fw-bold text-primary" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="PharmaUSTA" height="40" class="me-2"> PharmaUSTA
+                <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo.png') }}" alt="PharmaUSTA" height="40" class="me-2">
+                    PharmaUSTA
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNavbar" aria-controls="userNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,7 +23,7 @@
                     <ul class="navbar-nav ms-auto align-items-lg-center">
                         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Accueil</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('ressources.index') }}">Rechercher</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Mon profil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Mon profil</a></li>
                         <li class="nav-item ms-lg-2">
                             <a class="btn btn-outline-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Déconnexion</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>

@@ -16,7 +16,8 @@ use App\Http\Controllers\ArborescenceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware('guest')->group(function () {
@@ -43,6 +44,7 @@ Route::middleware(['auth', 'permission:gerer-referentiels'])->prefix('admin')->n
     Route::resource('ues', UeController::class);
     Route::resource('ecues', EcueController::class);
     Route::resource('types-ressources', TypeRessourceController::class);
+
 });
 
 Route::middleware(['auth', 'permission:gerer-ressources'])->prefix('admin')->name('admin.')->group(function () {
@@ -82,4 +84,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/ressources/{ressource}', [RessourceRechercheController::class, 'show'])->name('ressources.show');
     Route::get('/ressources/{ressource}/preview', [RessourceRechercheController::class, 'preview'])->name('ressources.preview');
     Route::get('/ressources/{ressource}/download', [RessourceRechercheController::class, 'download'])->name('ressources.download');
+    Route::get('/ressources/ecues-par-ue/{ue}', [RessourceRechercheController::class, 'ecuesParUe'])->name('ressources.ecuesParUe');
 });
+
+
+
+// Dans le groupe guest
+Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->name('password.request');
+Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
+Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->name('password.reset');
+Route::post('reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.store');
