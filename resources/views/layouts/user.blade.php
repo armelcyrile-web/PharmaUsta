@@ -22,7 +22,11 @@
                 <div class="collapse navbar-collapse" id="userNavbar">
                     <ul class="navbar-nav ms-auto align-items-lg-center">
                         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('ressources.index') }}">Ressources</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('ressources.index') }}">Rechercher</a></li>
+                        @canany(['gerer-ressources', 'gerer-referentiels', 'gerer-utilisateurs', 'gerer-roles', 'voir-statistiques'])
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Espace de gestion</a></li>
+                        @endcanany
                         <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Mon profil</a></li>
                         <li class="nav-item ms-lg-2">
                             <a class="btn btn-outline-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Déconnexion</a>

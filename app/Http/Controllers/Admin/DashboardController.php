@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller implements HasMiddleware
 {
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('auth'),
-            new Middleware('permission:voir-statistiques'),
-        ];
-    }
+   public static function middleware(): array
+{
+    return [
+        new Middleware('auth'),
+        new Middleware('permission:gerer-ressources|gerer-referentiels|gerer-utilisateurs|gerer-roles|voir-statistiques'),
+    ];
+}
 
     public function index()
     {

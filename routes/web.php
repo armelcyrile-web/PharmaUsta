@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\AnneeAcademiqueController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EcueController;
 use App\Http\Controllers\Admin\NiveauController;
 use App\Http\Controllers\Admin\RessourceController;
@@ -10,14 +11,14 @@ use App\Http\Controllers\Admin\TypeRessourceController;
 use App\Http\Controllers\Admin\UeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\RessourceRechercheController;
 use App\Http\Controllers\ArborescenceController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\RessourceRechercheController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\NewPasswordController;
+
 Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware('guest')->group(function () {
@@ -25,18 +26,24 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-Route::middleware(['auth', 'permission:voir-statistiques'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/tableau-de-bord', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/', function () {
-        return redirect()->route('admin.dashboard');
+Route::middleware(['auth', 'permission:gerer-ressources|gerer-referentiels|gerer-utilisateurs|gerer-roles|voir-statistiques'])
+    ->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/tableau-de-bord', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', function () {
+            return redirect()->route('admin.dashboard');
+        });
     });
-});
 
 Route::middleware(['auth', 'permission:gerer-referentiels'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('annees-academiques', AnneeAcademiqueController::class);
@@ -44,7 +51,6 @@ Route::middleware(['auth', 'permission:gerer-referentiels'])->prefix('admin')->n
     Route::resource('ues', UeController::class);
     Route::resource('ecues', EcueController::class);
     Route::resource('types-ressources', TypeRessourceController::class);
-
 });
 
 Route::middleware(['auth', 'permission:gerer-ressources'])->prefix('admin')->name('admin.')->group(function () {
@@ -77,24 +83,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/ressources/arborescence/{anneeAcademique}/niveaux/{niveau}/ues', [ArborescenceController::class, 'ues'])->name('arborescence.ues');
     Route::get('/ressources/arborescence/{anneeAcademique}/niveaux/{niveau}/ues/{ue}/ecues', [ArborescenceController::class, 'ecues'])->name('arborescence.ecues');
     Route::get('/ressources/arborescence/{anneeAcademique}/niveaux/{niveau}/ues/{ue}/ressources/{ecue?}', [ArborescenceController::class, 'ressources'])->name('arborescence.ressources');
-});
 
-Route::middleware('auth')->group(function () {
+    Route::get('/ressources/ecues-par-ue/{ue}', [RessourceRechercheController::class, 'ecuesParUe'])->name('ressources.ecuesParUe');
     Route::get('/ressources', [RessourceRechercheController::class, 'index'])->name('ressources.index');
     Route::get('/ressources/{ressource}', [RessourceRechercheController::class, 'show'])->name('ressources.show');
     Route::get('/ressources/{ressource}/preview', [RessourceRechercheController::class, 'preview'])->name('ressources.preview');
     Route::get('/ressources/{ressource}/download', [RessourceRechercheController::class, 'download'])->name('ressources.download');
-    Route::get('/ressources/ecues-par-ue/{ue}', [RessourceRechercheController::class, 'ecuesParUe'])->name('ressources.ecuesParUe');
 });
-
-
-
-// Dans le groupe guest
-Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-    ->name('password.request');
-Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-    ->name('password.email');
-Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-    ->name('password.reset');
-Route::post('reset-password', [NewPasswordController::class, 'store'])
-    ->name('password.store');
