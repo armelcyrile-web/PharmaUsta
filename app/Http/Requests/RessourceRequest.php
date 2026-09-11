@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Ecue;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RessourceRequest extends FormRequest
@@ -29,6 +30,24 @@ class RessourceRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $ueId = $this->input('ue_id');
+            $ecueId = $this->input('ecue_id');
+
+            if ($ueId && $ecueId) {
+                $appartient = Ecue::where('id', $ecueId)
+                    ->where('ue_id', $ueId)
+                    ->exists();
+
+                if (!$appartient) {
+                    $validator->errors()->add('ecue_id', 'Cette ECUE n\'appartient pas à l\'UE sélectionnée.');
+                }
+            }
+        });
     }
 
     public function messages(): array

@@ -83,7 +83,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/ressources/arborescence/{anneeAcademique}/niveaux/{niveau}/ues', [ArborescenceController::class, 'ues'])->name('arborescence.ues');
     Route::get('/ressources/arborescence/{anneeAcademique}/niveaux/{niveau}/ues/{ue}/ecues', [ArborescenceController::class, 'ecues'])->name('arborescence.ecues');
     Route::get('/ressources/arborescence/{anneeAcademique}/niveaux/{niveau}/ues/{ue}/ressources/{ecue?}', [ArborescenceController::class, 'ressources'])->name('arborescence.ressources');
-
+    
+    Route::get('/ressources/ues-par-niveau/{niveau}', [RessourceRechercheController::class, 'uesParNiveau'])->name('ressources.uesParNiveau');
     Route::get('/ressources/ecues-par-ue/{ue}', [RessourceRechercheController::class, 'ecuesParUe'])->name('ressources.ecuesParUe');
     Route::get('/ressources', [RessourceRechercheController::class, 'index'])->name('ressources.index');
     Route::get('/ressources/{ressource}', [RessourceRechercheController::class, 'show'])->name('ressources.show');

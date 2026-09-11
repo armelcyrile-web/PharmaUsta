@@ -25,7 +25,6 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ url('/') }}">Accueil</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#">Présentation</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Actualités</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                         @guest
@@ -51,42 +50,85 @@
         @yield('content')
     </main>
 
-    <footer class="text-white py-5" style="background-color: #1A1030;">
+    <footer class="text-white pt-5 pb-4" style="background-color: #1A1030;">
         <div class="container">
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <h5 class="fw-bold">Liens rapides</h5>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ asset('images/logo.png') }}" alt="PharmaUSTA" height="40" class="me-2">
+                        <span class="fw-bold fs-5 text-white">PharmaUSTA</span>
+                    </div>
+                    <p class="text-white-50 small">La plateforme numérique des ressources pédagogiques des étudiants en Pharmacie de l'USTA.</p>
+                    <p class="text-white-50 small mb-0">&copy; {{ date('Y') }} PharmaUSTA – Tous droits réservés.</p>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold text-uppercase mb-3">Liens rapides</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white-50 text-decoration-none">Accueil</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Présentation</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Actualités</a></li>
+                        <li class="mb-2">
+                            <a href="{{ url('/') }}" class="text-white-50 text-decoration-none">
+                                <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Accueil
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white-50 text-decoration-none">
+                                <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Actualités
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white-50 text-decoration-none">
+                                <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Contact
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <h5 class="fw-bold">Ressources</h5>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold text-uppercase mb-3">Ressources</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white-50 text-decoration-none">Cours</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Anciens sujets d'examens</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Exposés</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Documents complémentaires</a></li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white-50 text-decoration-none">
+                                <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Cours
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white-50 text-decoration-none">
+                                <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Anciens sujets d'examens
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white-50 text-decoration-none">
+                                <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Exposés
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white-50 text-decoration-none">
+                                <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Documents complémentaires
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <h5 class="fw-bold">Contact</h5>
-                    <address class="text-white-50">
-                        CEPHARM USTA<br>
-                        Université Saint Thomas d'Aquin<br>
-                        Ouagadougou, Burkina Faso<br>
-                        <i class="bi bi-envelope"></i> contact@pharmausta.bj
-                    </address>
+
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold text-uppercase mb-3">Nous contacter</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex">
+                            <i class="bi bi-envelope me-2" style="color: #5FA82C;"></i>
+                            <a href="mailto:contact@pharmausta.bj" class="text-white-50 text-decoration-none small">contact@pharmausta.bj</a>
+                        </li>
+                        <li class="mb-3 d-flex">
+                            <i class="bi bi-geo-alt me-2" style="color: #5FA82C;"></i>
+                            <span class="text-white-50 small">Club des Étudiants en Pharmacie (CEPHARM), Université Saint Thomas d'Aquin (USTA), Ouagadougou, Burkina Faso</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-md-3">
-                    <h5 class="fw-bold">CEPHARM USTA</h5>
-                    <p class="text-white-50">Centre de Pharmacie de l'Université Saint Thomas d'Aquin.</p>
+
+                <div class="col-lg-2 col-md-6 text-center">
+                    <h6 class="fw-bold text-uppercase mb-3">Une initiative du</h6>
+                    <img src="{{ asset('images/cepharm-logo.png') }}" alt="CEPHARM USTA" style="width: 90px; height: auto;" class="mb-2">
+                    <p class="text-white-50 small mb-0">CEPHARM USTA</p>
                 </div>
             </div>
-            <hr class="border-secondary">
-            <p class="text-center mb-0 text-white-50">&copy; {{ date('Y') }} PharmaUSTA. Tous droits réservés.</p>
         </div>
     </footer>
 </body>

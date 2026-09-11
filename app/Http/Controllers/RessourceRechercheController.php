@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Niveau;
 use App\Models\Ressource;
+use App\Models\Ue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Ue;
 
 class RessourceRechercheController extends Controller
 {
@@ -44,12 +45,6 @@ class RessourceRechercheController extends Controller
         return view('ressources.index', compact('ressources'));
     }
 
-    public function ecuesParUe(Ue $ue)
-{
-    $ecues = $ue->ecues()->orderBy('nom')->get(['id', 'nom']);
-    return response()->json($ecues);
-}
-
     public function show(Ressource $ressource)
     {
         abort_if($ressource->statut !== 'publie', 404);
@@ -70,5 +65,17 @@ class RessourceRechercheController extends Controller
         $ressource->increment('telechargements');
 
         return Storage::disk('local')->download($ressource->fichier);
+    }
+
+    public function uesParNiveau(Niveau $niveau)
+    {
+        $ues = $niveau->ues()->orderBy('nom')->get(['id', 'nom']);
+        return response()->json($ues);
+    }
+
+    public function ecuesParUe(Ue $ue)
+    {
+        $ecues = $ue->ecues()->orderBy('nom')->get(['id', 'nom']);
+        return response()->json($ecues);
     }
 }

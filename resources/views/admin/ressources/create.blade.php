@@ -64,11 +64,8 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="ue_id" class="form-label">UE *</label>
-                        <select name="ue_id" id="ue_id" class="form-select @error('ue_id') is-invalid @enderror" required>
-                            <option value="">Choisir...</option>
-                            @foreach($ues as $ue)
-                                <option value="{{ $ue->id }}" {{ old('ue_id') == $ue->id ? 'selected' : '' }}>{{ $ue->nom }}</option>
-                            @endforeach
+                        <select name="ue_id" id="ue_id" class="form-select @error('ue_id') is-invalid @enderror" required disabled>
+                            <option value="">Sélectionnez d'abord un niveau</option>
                         </select>
                         @error('ue_id')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -77,11 +74,8 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="ecue_id" class="form-label">ECUE (optionnel)</label>
-                        <select name="ecue_id" id="ecue_id" class="form-select @error('ecue_id') is-invalid @enderror">
-                            <option value="">Aucune</option>
-                            @foreach($ecues as $ecue)
-                                <option value="{{ $ecue->id }}" {{ old('ecue_id') == $ecue->id ? 'selected' : '' }}>{{ $ecue->nom }}</option>
-                            @endforeach
+                        <select name="ecue_id" id="ecue_id" class="form-select @error('ecue_id') is-invalid @enderror" disabled>
+                            <option value="">Sélectionnez d'abord une UE</option>
                         </select>
                         @error('ecue_id')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -113,4 +107,97 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const niveauSelect = document.getElementById('niveau_id');
+    const ueSelect = document.getElementById('ue_id');
+    const ecueSelect = document.getElementById('ecue_id');
+
+    const uesRouteBase = "{{ route('ressources.uesParNiveau', ['niveau' => '__ID__']) }}";
+    const ecuesRouteBase = "{{ route('ressources.ecuesParUe', ['ue' => '__ID__']) }}";
+
+    async function chargerUes(niveauId, ueSelectionnee = null) {
+        ueSelect.innerHTML = '<option value="">Chargement...</option>';
+        ueSelect.disabled = true;
+        ecueSelect.innerHTML = '<option value="">Sélectionnez d\'abord une UE</option>';
+        ecueSelect.disabled = true;
+
+        if (!niveauId) {
+            ueSelect.innerHTML = '<option value="">Sélectionnez d\'abord un niveau</option>';
+            return;
+        }
+
+        try {
+            const response = await fetch(uesRouteBase.replace('__ID__', niveauId));
+            const data = await response.json();
+
+            if (data.length > 0) {
+                ueSelect.innerHTML = '<option value="">Choisir...</option>';
+                data.forEach(ue => {
+                    const opt = document.createElement('option');
+                    opt.value = ue.id;
+                    opt.textContent = ue.nom;
+                    if (ueSelectionnee && ueSelectionnee == ue.id) opt.selected = true;
+                    ueSelect.appendChild(opt);
+                });
+                ueSelect.disabled = false;
+            } else {
+                ueSelect.innerHTML = '<option value="">Aucune UE pour ce niveau</option>';
+            }
+        } catch (e) {
+            ueSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+        }
+    }
+
+    async function chargerEcues(ueId, ecueSelectionnee = null) {
+        ecueSelect.innerHTML = '<option value="">Chargement...</option>';
+        ecueSelect.disabled = true;
+
+        if (!ueId) {
+            ecueSelect.innerHTML = '<option value="">Sélectionnez d\'abord une UE</option>';
+            return;
+        }
+
+        try {
+            const response = await fetch(ecuesRouteBase.replace('__ID__', ueId));
+            const data = await response.json();
+
+            if (data.length > 0) {
+                ecueSelect.innerHTML = '<option value="">Aucune</option>';
+                data.forEach(ecue => {
+                    const opt = document.createElement('option');
+                    opt.value = ecue.id;
+                    opt.textContent = ecue.nom;
+                    if (ecueSelectionnee && ecueSelectionnee == ecue.id) opt.selected = true;
+                    ecueSelect.appendChild(opt);
+                });
+                ecueSelect.disabled = false;
+            } else {
+                ecueSelect.innerHTML = '<option value="">Aucune ECUE pour cette UE</option>';
+            }
+        } catch (e) {
+            ecueSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+        }
+    }
+
+    niveauSelect.addEventListener('change', function() {
+        chargerUes(this.value);
+    });
+
+    ueSelect.addEventListener('change', function() {
+        chargerEcues(this.value);
+    });
+
+    const niveauInitial = niveauSelect.value;
+    const ueInitiale = "{{ old('ue_id') }}";
+    const ecueInitiale = "{{ old('ecue_id') }}";
+
+    if (niveauInitial) {
+        chargerUes(niveauInitial, ueInitiale).then(() => {
+            if (ueInitiale) chargerEcues(ueInitiale, ecueInitiale);
+        });
+    }
+});
+</script>
 @endsection
