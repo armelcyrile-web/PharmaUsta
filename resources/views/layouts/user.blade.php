@@ -21,13 +21,23 @@
                 </button>
                 <div class="collapse navbar-collapse" id="userNavbar">
                     <ul class="navbar-nav ms-auto align-items-lg-center">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Accueil</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('ressources.index') }}">Ressources</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('ressources.index') }}">Rechercher</a></li>
-                        @canany(['gerer-ressources', 'gerer-referentiels', 'gerer-utilisateurs', 'gerer-roles', 'voir-statistiques'])
-                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Espace de gestion</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ url('/') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('actualites.*') ? 'active' : '' }}" href="{{ route('actualites.index') }}">Actualités</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('ressources.*') || request()->routeIs('arborescence.*') ? 'active' : '' }}" href="{{ route('ressources.index') }}">Ressources</a>
+                        </li>
+                        @canany(['gerer-ressources', 'gerer-referentiels', 'gerer-utilisateurs', 'gerer-roles', 'gerer-actualites', 'voir-statistiques'])
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.*') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Espace de gestion</a>
+                            </li>
                         @endcanany
-                        <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Mon profil</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.edit') }}">Mon profil</a>
+                        </li>
                         <li class="nav-item ms-lg-2">
                             <a class="btn btn-outline-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Déconnexion</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>

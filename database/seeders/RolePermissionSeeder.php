@@ -15,17 +15,18 @@ class RolePermissionSeeder extends Seeder
             'gerer-referentiels',
             'gerer-utilisateurs',
             'gerer-roles',
+            'gerer-actualites',
             'voir-statistiques',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
-        $roleModerateur = Role::create(['name' => 'Modérateur ressources']);
-        $roleModerateur->givePermissionTo('gerer-ressources');
+        $roleModerateur = Role::firstOrCreate(['name' => 'Modérateur ressources']);
+        $roleModerateur->syncPermissions(['gerer-ressources']);
 
-        $roleGestionnaire = Role::create(['name' => 'Gestionnaire pédagogique']);
-        $roleGestionnaire->givePermissionTo(['gerer-ressources', 'gerer-referentiels']);
+        $roleGestionnaire = Role::firstOrCreate(['name' => 'Gestionnaire pédagogique']);
+        $roleGestionnaire->syncPermissions(['gerer-ressources', 'gerer-referentiels']);
     }
 }

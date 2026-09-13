@@ -25,16 +25,26 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ url('/') }}">Accueil</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#">Actualités</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('actualites.*') ? 'active' : '' }}" href="{{ route('actualites.index') }}">Actualités</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
+                        </li>
                         @guest
-                            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Connexion</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}">Connexion</a>
+                            </li>
                             <li class="nav-item ms-lg-2">
                                 <a class="btn btn-primary text-white px-3" href="{{ route('register') }}">Créer un compte</a>
                             </li>
                         @else
-                            <li class="nav-item"><a class="nav-link" href="{{ route('ressources.index') }}">Ressources</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Mon profil</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('ressources.*') ? 'active' : '' }}" href="{{ route('ressources.index') }}">Ressources</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}" href="{{ route('profile.edit') }}">Mon profil</a>
+                            </li>
                             <li class="nav-item ms-lg-2">
                                 <a class="btn btn-outline-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Déconnexion</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
@@ -71,12 +81,12 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-white-50 text-decoration-none">
+                            <a href="{{ route('actualites.index') }}" class="text-white-50 text-decoration-none">
                                 <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Actualités
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-white-50 text-decoration-none">
+                            <a href="{{ route('contact') }}" class="text-white-50 text-decoration-none">
                                 <i class="bi bi-chevron-right" style="color: #5FA82C;"></i> Contact
                             </a>
                         </li>
@@ -113,12 +123,16 @@
                     <h6 class="fw-bold text-uppercase mb-3">Nous contacter</h6>
                     <ul class="list-unstyled">
                         <li class="mb-3 d-flex">
+                            <i class="bi bi-telephone me-2" style="color: #5FA82C;"></i>
+                            <span class="text-white-50 small">+226 54 72 44 34</span>
+                        </li>
+                        <li class="mb-3 d-flex">
                             <i class="bi bi-envelope me-2" style="color: #5FA82C;"></i>
-                            <a href="mailto:contact@pharmausta.bj" class="text-white-50 text-decoration-none small">contact@pharmausta.bj</a>
+                            <a href="mailto:cepharmusta@gmail.com" class="text-white-50 text-decoration-none small">cepharmusta@gmail.com</a>
                         </li>
                         <li class="mb-3 d-flex">
                             <i class="bi bi-geo-alt me-2" style="color: #5FA82C;"></i>
-                            <span class="text-white-50 small">Club des Étudiants en Pharmacie (CEPHARM), Université Saint Thomas d'Aquin (USTA), Ouagadougou, Burkina Faso</span>
+                            <span class="text-white-50 small">03 BP 7021 Ouagadougou 03, Burkina Faso</span>
                         </li>
                     </ul>
                 </div>
@@ -132,4 +146,4 @@
         </div>
     </footer>
 </body>
-</html>
+</html> 

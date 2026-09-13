@@ -22,6 +22,13 @@
                         <i class="bi bi-speedometer2 me-2"></i> Tableau de bord
                     </a>
                 </li>
+                @can('gerer-actualites')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.actualites.index') }}" class="nav-link text-white">
+                            <i class="bi bi-newspaper me-2"></i> Actualités
+                        </a>
+                    </li>
+                @endcan
                 @can('gerer-ressources')
                     <li class="nav-item">
                         <a href="{{ route('admin.ressources.index') }}" class="nav-link text-white">
@@ -86,6 +93,9 @@
             <header class="bg-white shadow-sm px-4 py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">@yield('page-title', 'Administration')</h5>
                 <div class="d-flex align-items-center">
+                    <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-sm me-3">
+                        <i class="bi bi-house me-1"></i> Retour au site
+                    </a>
                     <span class="me-3">{{ Auth::user()->nom ?? Auth::user()->name }} {{ Auth::user()->prenom ?? '' }}</span>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-outline-danger btn-sm">
                         <i class="bi bi-box-arrow-right"></i>
