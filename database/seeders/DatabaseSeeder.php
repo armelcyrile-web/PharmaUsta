@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             MatriculeValideSeeder::class,
             RolePermissionSeeder::class,
             AdminPrincipalSeeder::class,
+            ActualiteSeeder::class,
         ]);
     }
 }
